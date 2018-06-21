@@ -24,8 +24,7 @@ public class HelloServlet extends HttpServlet {
 		System.out.println();
 		
 		WebTarget target = ClientBuilder.newClient().target("http://" + System.getenv("FileServerIp")).path("FileServer/rest/hello");
-		String itSays = target.getUri().toString();
-//		String itSays = target.request(MediaType.TEXT_PLAIN).get(String.class);
+		String itSays = target.request(MediaType.TEXT_PLAIN).get(String.class);
 		 
 		writer.println("<html>");
 		writer.println("<head><title>Java Beispiel Servlet</title></head>");
