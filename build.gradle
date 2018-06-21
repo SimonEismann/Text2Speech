@@ -8,4 +8,5 @@ repositories {
 dependencies {
 	compile group: 'javax', name: 'javaee-api', version: '8.0'
 	compile group: 'org.glassfish.jersey.core', name: 'jersey-client', version: '2.27'
+	compile group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: '2.27'
 }
