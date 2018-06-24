@@ -12,7 +12,7 @@ dependencies {
 	compile group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: '2.27'
     compile group: 'de.dfki.mary', name: 'voice-cmu-slt-hsmm', version: '5.2'
     compile group: 'commons-io', name: 'commons-io', version: '2.6'
-  
+    compile group: 'org.glassfish.jersey.media', name: 'jersey-media-json-jackson', version: '2.27'
 }
 
 war {
