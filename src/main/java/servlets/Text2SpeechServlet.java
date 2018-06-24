@@ -1,7 +1,6 @@
 package servlets;
 
 import javax.servlet.ServletException;
-import javax.servlet.ServletOutputStream;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +14,6 @@ import marytts.exceptions.MaryConfigurationException;
 import marytts.exceptions.SynthesisException;
 
 import java.io.IOException;
-import java.io.InputStream;
 
 @WebServlet("/text2speech")
 public class Text2SpeechServlet extends HttpServlet {
@@ -34,7 +32,6 @@ public class Text2SpeechServlet extends HttpServlet {
 //		WebTarget target = ClientBuilder.newClient().target("http://" + System.getenv("FileServerIp")).path("FileServer/rest/hello");
 //		String itSays = target.request(MediaType.TEXT_PLAIN).get(String.class);
 	}
-	
 	public AudioInputStream text2speech(String text) {
 		LocalMaryInterface mary = null;
 		try {
@@ -50,6 +47,7 @@ public class Text2SpeechServlet extends HttpServlet {
 		} catch (SynthesisException e) {
 			throw new IllegalStateException("Synthesis failed: " + e.getMessage());
 		}
+		
 		return audio;
 	}
 }
