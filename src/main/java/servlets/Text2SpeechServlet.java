@@ -16,7 +16,7 @@ public class Text2SpeechServlet extends HttpServlet {
 
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String content = (String) req.getAttribute("text");
+		String content = req.getParameter("text");
 		PrintWriter writer = resp.getWriter();
 //		WebTarget target = ClientBuilder.newClient().target("http://" + System.getenv("FileServerIp")).path("FileServer/rest/hello");
 //		String itSays = target.request(MediaType.TEXT_PLAIN).get(String.class);
