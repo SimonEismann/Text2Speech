@@ -26,7 +26,7 @@ public class IndexServlet extends HttpServlet {
 		writer.println("<h1>Text2Speech Upload</h1>");
 		writer.println("<form action=\"upload\" method=\"post\">");
 		writer.println("<textarea rows=\"4\" cols=\"50\">Hello World!</textarea>");
-		writer.println("<input type=\"submit\" value=\"Submit\">x");
+		writer.println("<input type=\"submit\" value=\"Submit\"><br>");
 		writer.println("</form>");
 		writer.println("<body>");
 		writer.println("</html>");
