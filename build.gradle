@@ -10,3 +10,7 @@ dependencies {
 	compile group: 'org.glassfish.jersey.core', name: 'jersey-client', version: '2.27'
 	compile group: 'org.glassfish.jersey.inject', name: 'jersey-hk2', version: '2.27'
 }
+
+war {
+    webXml = file('WebContent/WEB-INF/web.xml') // copies a file to WEB-INF/web.xml
+}
