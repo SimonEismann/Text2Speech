@@ -15,7 +15,7 @@ public class Text2SpeechServlet extends HttpServlet {
 	private static final long serialVersionUID = 3725150619150580957L;
 
 	@Override
-	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String content = (String) req.getAttribute("text");
 		PrintWriter writer = resp.getWriter();
 //		WebTarget target = ClientBuilder.newClient().target("http://" + System.getenv("FileServerIp")).path("FileServer/rest/hello");
