@@ -9,6 +9,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.io.IOUtils;
@@ -22,6 +23,7 @@ import marytts.util.data.audio.MaryAudioUtils;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Arrays;
+import java.util.List;
 
 @WebServlet("/text2speech")
 public class Text2SpeechServlet extends HttpServlet {
@@ -34,7 +36,7 @@ public class Text2SpeechServlet extends HttpServlet {
 		double[] audio = text2speech(content);
 		
 		WebTarget target = ClientBuilder.newClient().target("http://" + System.getenv("FileServerIp")).path("FileServer/rest/save");
-		String itSays = target.request(MediaType.TEXT_PLAIN).post(Entity.entity(Arrays.asList(audio), MediaType.APPLICATION_JSON), String.class);
+		String itSays = target.request(MediaType.TEXT_PLAIN).post(Entity.entity(new GenericEntity<double[]>(audio) {}, MediaType.APPLICATION_JSON), String.class);
 		
 		PrintWriter writer = resp.getWriter();
 		writer.write(itSays);
