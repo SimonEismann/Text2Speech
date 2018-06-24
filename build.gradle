@@ -3,7 +3,7 @@ apply plugin: 'war'
 
 repositories {
     mavenCentral()
-  jcenter()
+    jcenter()
 }
 
 dependencies {
