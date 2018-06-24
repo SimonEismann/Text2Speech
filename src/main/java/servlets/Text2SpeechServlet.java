@@ -48,7 +48,7 @@ public class Text2SpeechServlet extends HttpServlet {
 		}
 		
 		PrintWriter writer = resp.getWriter();
-		writer.write(audioS.getFormat().getFrameSize());
+		writer.write("Framesize:" + audioS.getFormat().getFrameSize());
 		writer.close();
 	}
 	
