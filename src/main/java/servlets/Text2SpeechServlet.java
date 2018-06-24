@@ -9,21 +9,15 @@ import javax.sound.sampled.AudioInputStream;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
-import javax.ws.rs.core.GenericEntity;
 import javax.ws.rs.core.MediaType;
-
-import org.apache.commons.io.IOUtils;
 
 import marytts.LocalMaryInterface;
 import marytts.exceptions.MaryConfigurationException;
 import marytts.exceptions.SynthesisException;
-import marytts.util.MaryUtils;
 import marytts.util.data.audio.MaryAudioUtils;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
-import java.util.List;
 
 @WebServlet("/text2speech")
 public class Text2SpeechServlet extends HttpServlet {
@@ -62,7 +56,7 @@ public class Text2SpeechServlet extends HttpServlet {
 		return MaryAudioUtils.getSamplesAsDoubleArray(audio);
 	}
 	
-	public class DoubleArray {
+	public static class DoubleArray {
 	    private double[] array;
 
 	    public DoubleArray() { }
