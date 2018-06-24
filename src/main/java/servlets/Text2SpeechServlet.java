@@ -36,7 +36,7 @@ public class Text2SpeechServlet extends HttpServlet {
 		double[] audio = text2speech(content);
 		
 		WebTarget target = ClientBuilder.newClient().target("http://" + System.getenv("FileServerIp")).path("FileServer/rest/save");
-		String itSays = target.request(MediaType.TEXT_PLAIN).post(Entity.entity(new GenericEntity<double[]>(audio) {}, MediaType.APPLICATION_JSON), String.class);
+		String itSays = target.request(MediaType.TEXT_PLAIN).post(Entity.entity(new DoubleArray(audio), MediaType.APPLICATION_JSON), String.class);
 		
 		PrintWriter writer = resp.getWriter();
 		writer.write(itSays);
@@ -60,5 +60,23 @@ public class Text2SpeechServlet extends HttpServlet {
 		}
 		
 		return MaryAudioUtils.getSamplesAsDoubleArray(audio);
+	}
+	
+	public class DoubleArray {
+	    private double[] array;
+
+	    public DoubleArray() { }
+
+	    public DoubleArray(double[] array) {
+	        this.array = array;
+	    }
+
+	    public void setArray(double[] array) {
+	        this.array = array;
+	    }
+
+	    public double[] getArray() {
+	        return this.array;
+	    }
 	}
 }
