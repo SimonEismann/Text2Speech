@@ -30,7 +30,8 @@ public class Text2SpeechServlet extends HttpServlet {
 		double[] audio = text2speech(content);
 		
 		WebTarget target = ClientBuilder.newClient().target("http://" + System.getenv("FileServerIp")).path("FileServer/rest/save");
-		String itSays = target.request(MediaType.TEXT_PLAIN).put(Entity.entity(new DoubleArray(audio), MediaType.APPLICATION_JSON), String.class);
+		Entity<DoubleArray> entity = Entity.entity(new DoubleArray(audio), MediaType.APPLICATION_JSON);
+		String itSays = target.request(MediaType.TEXT_PLAIN).post(entity, String.class);
 		
 		PrintWriter writer = resp.getWriter();
 		writer.write(itSays);
