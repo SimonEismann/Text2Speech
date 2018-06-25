@@ -31,24 +31,9 @@ public class Text2SpeechServlet extends HttpServlet {
 		
 		WebTarget target = ClientBuilder.newClient().target("http://" + System.getenv("FileServerIp")).path("FileServer/rest/save");
 		String itSays = target.request(MediaType.TEXT_PLAIN).post(Entity.entity(new DoubleArray(audio), MediaType.APPLICATION_JSON), String.class);
-
-		LocalMaryInterface mary = null;
-		try {
-			mary = new LocalMaryInterface();
-		} catch (MaryConfigurationException e) {
-			throw new IllegalStateException("Could not initialize MaryTTS interface: " + e.getMessage());
-		}
-
-		// synthesize
-		AudioInputStream audioS = null;
-		try {
-			audioS = mary.generateAudio(content);
-		} catch (SynthesisException e) {
-			throw new IllegalStateException("Synthesis failed: " + e.getMessage());
-		}
 		
 		PrintWriter writer = resp.getWriter();
-		writer.write("Framesize:" + audioS.getFormat().getFrameSize());
+		writer.write(itSays);
 		writer.close();
 	}
 	
