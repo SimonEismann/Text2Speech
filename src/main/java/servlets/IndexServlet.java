@@ -17,8 +17,7 @@ public class IndexServlet extends HttpServlet {
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		PrintWriter writer = resp.getWriter();
-//		WebTarget target = ClientBuilder.newClient().target("http://" + System.getenv("FileServerIp")).path("FileServer/rest/hello");
-//		String itSays = target.request(MediaType.TEXT_PLAIN).get(String.class);
+		
 		writer.println("<html>");
 		writer.println("<head><title>Text2Speech Upload</title></head>");
 		writer.println("<body>");
