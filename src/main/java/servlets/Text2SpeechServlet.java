@@ -11,6 +11,8 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
+import org.apache.commons.io.IOUtils;
+
 import marytts.LocalMaryInterface;
 import marytts.exceptions.MaryConfigurationException;
 import marytts.exceptions.SynthesisException;
@@ -18,7 +20,6 @@ import marytts.util.data.audio.MaryAudioUtils;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.URL;
 
 @WebServlet("/text2speech")
@@ -35,13 +36,9 @@ public class Text2SpeechServlet extends HttpServlet {
 		Entity<DoubleArray> entity = Entity.entity(new DoubleArray(audio), MediaType.APPLICATION_JSON);
 		String itSays = target.request(MediaType.TEXT_PLAIN).post(entity, String.class);
 		
-		PrintWriter writer = resp.getWriter();
-		writer.write(itSays);
-		writer.close();
+		BufferedInputStream audioStream = new BufferedInputStream(new URL(itSays).openStream());
 
-//		BufferedInputStream audioStream = new BufferedInputStream(new URL(itSays).openStream());
-//
-//		IOUtils.copy(audioStream, resp.getOutputStream());
+		IOUtils.copy(audioStream, resp.getOutputStream());
 
 		
 	}
