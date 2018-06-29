@@ -34,9 +34,9 @@ public class Text2SpeechServlet extends HttpServlet {
 		Entity<DoubleArray> entity = Entity.entity(new DoubleArray(audio), MediaType.APPLICATION_JSON);
 		String itSays = target.request(MediaType.TEXT_PLAIN).post(entity, String.class);
 		
-		PrintWriter writer = resp.getWriter();
-		writer.write(itSays);
-		writer.close();
+//		PrintWriter writer = resp.getWriter();
+//		writer.write(itSays);
+//		writer.close();
 		
 		RequestDispatcher dispatcher = req.getRequestDispatcher(itSays);
 		dispatcher.forward(req, resp);
