@@ -36,6 +36,7 @@ public class Text2SpeechServlet extends HttpServlet {
 		Entity<DoubleArray> entity = Entity.entity(new DoubleArray(audio), MediaType.APPLICATION_JSON);
 		String itSays = target.request(MediaType.TEXT_PLAIN).post(entity, String.class);
 				
+		System.out.println(itSays);
 		BufferedInputStream audioStream = new BufferedInputStream(new URL(itSays).openStream());
 
 		IOUtils.copy(audioStream, resp.getOutputStream());
