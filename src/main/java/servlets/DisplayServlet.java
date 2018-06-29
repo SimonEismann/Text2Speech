@@ -14,7 +14,7 @@ import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.net.URL;
 
-@WebServlet("/redis")
+@WebServlet("/display")
 public class DisplayServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 3725150619150580957L;
