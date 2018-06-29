@@ -6,26 +6,31 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.io.IOUtils;
+
 import redis.clients.jedis.Jedis;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.net.URL;
 
 @WebServlet("/redis")
-public class RedisServlet extends HttpServlet {
+public class DisplayServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 3725150619150580957L;
 
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		String id = req.getParameter("id");
+		
 		Jedis jedis = new Jedis(System.getenv("RedisIp"));
-		jedis.set("foo", "bar");
-		String value = jedis.get("foo");
+		String location = jedis.get(id);
 		jedis.close();
 		
-		PrintWriter writer = resp.getWriter();
-		writer.println(value);
+		BufferedInputStream audioStream = new BufferedInputStream(new URL(location).openStream());
 
-		writer.close();
+		resp.setContentType("audio/x-wav");
+		resp.setHeader("Accept-Ranges", "bytes");
+		IOUtils.copy(audioStream, resp.getOutputStream());
 	}
 }

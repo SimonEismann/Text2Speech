@@ -11,16 +11,15 @@ import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
-import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.RandomStringUtils;
 
 import marytts.LocalMaryInterface;
 import marytts.exceptions.MaryConfigurationException;
 import marytts.exceptions.SynthesisException;
 import marytts.util.data.audio.MaryAudioUtils;
+import redis.clients.jedis.Jedis;
 
-import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.net.URL;
 
 @WebServlet("/text2speech")
 public class Text2SpeechServlet extends HttpServlet {
@@ -31,20 +30,21 @@ public class Text2SpeechServlet extends HttpServlet {
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String content = req.getParameter("text");
 		double[] audio = text2speech(content);
-		
-		WebTarget target = ClientBuilder.newClient().target("http://" + System.getenv("FileServerIp")).path("FileServer/rest/save");
+
+		WebTarget target = ClientBuilder.newClient().target("http://" + System.getenv("FileServerIp"))
+				.path("FileServer/rest/save");
 		Entity<DoubleArray> entity = Entity.entity(new DoubleArray(audio), MediaType.APPLICATION_JSON);
-		String itSays = target.request(MediaType.TEXT_PLAIN).post(entity, String.class);
-		
-		BufferedInputStream audioStream = new BufferedInputStream(new URL(itSays).openStream());
+		String location = target.request(MediaType.TEXT_PLAIN).post(entity, String.class);
 
-		resp.setContentType("audio/x-wav");
-		resp.setHeader("Accept-Ranges", "bytes");
-		IOUtils.copy(audioStream, resp.getOutputStream());
+		String id = RandomStringUtils.randomAlphanumeric(12);
 
-		
+		Jedis jedis = new Jedis(System.getenv("RedisIp"));
+		jedis.set(id, location);
+		jedis.close();
+
+		resp.sendRedirect("display?id=" + id);
 	}
-	
+
 	public double[] text2speech(String text) {
 		LocalMaryInterface mary = null;
 		try {
@@ -60,25 +60,26 @@ public class Text2SpeechServlet extends HttpServlet {
 		} catch (SynthesisException e) {
 			throw new IllegalStateException("Synthesis failed: " + e.getMessage());
 		}
-		
+
 		return MaryAudioUtils.getSamplesAsDoubleArray(audio);
 	}
-	
+
 	public static class DoubleArray {
-	    private double[] array;
+		private double[] array;
 
-	    public DoubleArray() { }
+		public DoubleArray() {
+		}
 
-	    public DoubleArray(double[] array) {
-	        this.array = array;
-	    }
+		public DoubleArray(double[] array) {
+			this.array = array;
+		}
 
-	    public void setArray(double[] array) {
-	        this.array = array;
-	    }
+		public void setArray(double[] array) {
+			this.array = array;
+		}
 
-	    public double[] getArray() {
-	        return this.array;
-	    }
+		public double[] getArray() {
+			return this.array;
+		}
 	}
 }
