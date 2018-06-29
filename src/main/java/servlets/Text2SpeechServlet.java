@@ -40,7 +40,6 @@ public class Text2SpeechServlet extends HttpServlet {
 		BufferedInputStream audioStream = new BufferedInputStream(new URL(itSays).openStream());
 
 		IOUtils.copy(audioStream, resp.getOutputStream());
-		
 	}
 	
 	public double[] text2speech(String text) {

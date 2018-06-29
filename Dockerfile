@@ -1,4 +1,4 @@
-FROM tomcat:8.5-jre8-alpine
+FROM tomcat:8.5-jre8
 
 COPY build/libs/*.war /usr/local/tomcat/webapps/
 RUN sed -i "s|redirectPort=\"8443\"|redirectPort=\"8443\" maxPostSize=\"52428800\"|g" /usr/local/tomcat/conf/server.xml
