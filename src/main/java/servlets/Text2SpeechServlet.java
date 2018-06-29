@@ -1,5 +1,6 @@
 package servlets;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -36,6 +37,9 @@ public class Text2SpeechServlet extends HttpServlet {
 		PrintWriter writer = resp.getWriter();
 		writer.write(itSays);
 		writer.close();
+		
+		RequestDispatcher dispatcher = req.getRequestDispatcher(itSays);
+		dispatcher.forward(req, resp);
 	}
 	
 	public double[] text2speech(String text) {
