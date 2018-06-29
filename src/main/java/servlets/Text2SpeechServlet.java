@@ -37,9 +37,9 @@ public class Text2SpeechServlet extends HttpServlet {
 		String itSays = target.request(MediaType.TEXT_PLAIN).post(entity, String.class);
 				
 		System.out.println(itSays);
-		BufferedInputStream audioStream = new BufferedInputStream(new URL(itSays).openStream());
-
-		IOUtils.copy(audioStream, resp.getOutputStream());
+//		BufferedInputStream audioStream = new BufferedInputStream(new URL(itSays).openStream());
+//
+//		IOUtils.copy(audioStream, resp.getOutputStream());
 	}
 	
 	public double[] text2speech(String text) {
