@@ -1,6 +1,5 @@
 package servlets;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,7 +17,6 @@ import marytts.exceptions.SynthesisException;
 import marytts.util.data.audio.MaryAudioUtils;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
 @WebServlet("/text2speech")
 public class Text2SpeechServlet extends HttpServlet {
@@ -38,8 +36,7 @@ public class Text2SpeechServlet extends HttpServlet {
 //		writer.write(itSays);
 //		writer.close();
 		
-		RequestDispatcher dispatcher = req.getRequestDispatcher(itSays);
-		dispatcher.forward(req, resp);
+		resp.sendRedirect(itSays);
 	}
 	
 	public double[] text2speech(String text) {
