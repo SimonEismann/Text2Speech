@@ -38,6 +38,8 @@ public class Text2SpeechServlet extends HttpServlet {
 		
 		BufferedInputStream audioStream = new BufferedInputStream(new URL(itSays).openStream());
 
+		resp.setContentType("audio/x-wav");
+		resp.setHeader("Accept-Ranges", "bytes");
 		IOUtils.copy(audioStream, resp.getOutputStream());
 
 		
