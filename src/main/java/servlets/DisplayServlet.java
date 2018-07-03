@@ -22,8 +22,8 @@ public class DisplayServlet extends HttpServlet {
 	@Override
 	public void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String id = req.getParameter("id");
-		
-		Jedis jedis = new Jedis(System.getenv("RedisIp"));
+
+		Jedis jedis = new Jedis(System.getenv("RedisIp"), 6379, 5000);
 		String location = jedis.get(id);
 		jedis.close();
 		

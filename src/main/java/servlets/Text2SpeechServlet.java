@@ -38,7 +38,7 @@ public class Text2SpeechServlet extends HttpServlet {
 
 		String id = RandomStringUtils.randomAlphanumeric(12);
 
-		Jedis jedis = new Jedis(System.getenv("RedisIp"));
+		Jedis jedis = new Jedis(System.getenv("RedisIp"), 6379, 5000);
 		jedis.set(id, location);
 		jedis.close();
 
