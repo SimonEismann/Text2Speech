@@ -27,6 +27,7 @@ public class Text2SpeechServlet extends HttpServlet {
 	private static final long serialVersionUID = 3725150619150580957L;
 	private static javax.ws.rs.client.Invocation.Builder builder;
 	private static LocalMaryInterface mary;
+	private static Jedis jedis;
 	
 	public Text2SpeechServlet() {
 		builder = ClientBuilder.newClient().target("http://" + System.getenv("FileServerIp"))
@@ -36,6 +37,7 @@ public class Text2SpeechServlet extends HttpServlet {
 		} catch (MaryConfigurationException e) {
 			throw new IllegalStateException("Could not initialize MaryTTS interface: " + e.getMessage());
 		}
+		jedis = new Jedis(System.getenv("RedisIp"), 6379, 5000);
 	}
 	
 	
@@ -50,9 +52,7 @@ public class Text2SpeechServlet extends HttpServlet {
 
 		String id = RandomStringUtils.randomAlphanumeric(8);
 
-		Jedis jedis = new Jedis(System.getenv("RedisIp"), 6379, 5000);
 		jedis.set(id, location);
-		jedis.close();
 		
 		PrintWriter writer = resp.getWriter();
 		writer.println("<a href=\"display?id=" + id + "\">Play audio!</a>");
