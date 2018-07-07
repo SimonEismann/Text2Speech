@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.sound.sampled.AudioInputStream;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
-import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.MediaType;
 
 import org.apache.commons.lang.RandomStringUtils;
@@ -27,10 +26,16 @@ public class Text2SpeechServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 3725150619150580957L;
 	private static javax.ws.rs.client.Invocation.Builder builder;
+	private static LocalMaryInterface mary;
 	
 	public Text2SpeechServlet() {
 		builder = ClientBuilder.newClient().target("http://" + System.getenv("FileServerIp"))
 				.path("FileServer/rest/save").request(MediaType.TEXT_PLAIN);
+		try {
+			mary = new LocalMaryInterface();
+		} catch (MaryConfigurationException e) {
+			throw new IllegalStateException("Could not initialize MaryTTS interface: " + e.getMessage());
+		}
 	}
 	
 	
@@ -55,14 +60,6 @@ public class Text2SpeechServlet extends HttpServlet {
 	}
 
 	public double[] text2speech(String text) {
-		LocalMaryInterface mary = null;
-		try {
-			mary = new LocalMaryInterface();
-		} catch (MaryConfigurationException e) {
-			throw new IllegalStateException("Could not initialize MaryTTS interface: " + e.getMessage());
-		}
-
-		// synthesize
 		AudioInputStream audio = null;
 		try {
 			audio = mary.generateAudio(text);
