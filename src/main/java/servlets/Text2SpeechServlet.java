@@ -26,18 +26,24 @@ import java.io.PrintWriter;
 public class Text2SpeechServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 3725150619150580957L;
-
+	private static javax.ws.rs.client.Invocation.Builder builder;
+	
+	public Text2SpeechServlet() {
+		builder = ClientBuilder.newClient().target("http://" + System.getenv("FileServerIp"))
+				.path("FileServer/rest/save").request(MediaType.TEXT_PLAIN);
+	}
+	
+	
 	@Override
 	public void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String content = req.getParameter("text");
 		double[] audio = text2speech(content);
 
-		WebTarget target = ClientBuilder.newClient().target("http://" + System.getenv("FileServerIp"))
-				.path("FileServer/rest/save");
+		
 		Entity<DoubleArray> entity = Entity.entity(new DoubleArray(audio), MediaType.APPLICATION_JSON);
-		String location = target.request(MediaType.TEXT_PLAIN).post(entity, String.class);
+		String location = builder.post(entity, String.class);
 
-		String id = RandomStringUtils.randomAlphanumeric(12);
+		String id = RandomStringUtils.randomAlphanumeric(8);
 
 		Jedis jedis = new Jedis(System.getenv("RedisIp"), 6379, 5000);
 		jedis.set(id, location);
