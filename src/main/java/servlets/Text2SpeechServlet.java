@@ -20,6 +20,7 @@ import marytts.util.data.audio.MaryAudioUtils;
 import redis.clients.jedis.Jedis;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
 @WebServlet("/text2speech")
 public class Text2SpeechServlet extends HttpServlet {
@@ -41,8 +42,10 @@ public class Text2SpeechServlet extends HttpServlet {
 		Jedis jedis = new Jedis(System.getenv("RedisIp"), 6379, 5000);
 		jedis.set(id, location);
 		jedis.close();
-
-		resp.sendRedirect("display?id=" + id);
+		
+		PrintWriter writer = resp.getWriter();
+		writer.println("<a href=\"display?id=" + id + "\">Play audio!</a>");
+		writer.close();
 	}
 
 	public double[] text2speech(String text) {
