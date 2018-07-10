@@ -9,6 +9,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 import org.apache.commons.lang.RandomStringUtils;
 
@@ -48,8 +49,10 @@ public class Text2SpeechServlet extends HttpServlet {
 
 		
 		Entity<DoubleArray> entity = Entity.entity(new DoubleArray(audio), MediaType.APPLICATION_JSON);
-		String location = builder.post(entity, String.class);
-
+		Response r = builder.post(entity);
+		String location = r.readEntity(String.class);
+		r.close();
+		
 		String id = RandomStringUtils.randomAlphanumeric(8);
 
 		jedis.set(id, location);
